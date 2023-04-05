@@ -1,12 +1,12 @@
-#spring:
-#  datasource:
-#    url: jdbc:mysql://localhost:3306/nedspring
-#    username: root
-#    password:
-#    driver-class-name: com.mysql.cj.jdbc.Driver
 
 spring:
   data:
     mongodb:
       uri: mongodb+srv://admin:admin@nedcluster.wnvsxlc.mongodb.net/?retryWrites=true&w=majority
       database: blogapp
+
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: create
+
