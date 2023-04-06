@@ -4,6 +4,8 @@ import com.blogapp.dto.UserDto;
 import com.blogapp.entities.User;
 import com.blogapp.exception.ResourceNotFoundException;
 import com.blogapp.repositories.UserRepository;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,30 +17,33 @@ public class UserServiceImpl implements UserService{
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private ModelMapper modelMapper;
+
     @Override
-    public User createUser(User user) {
-        return userRepository.save(user);
+    public UserDto createUser(UserDto userDto) {
+        return userToDto(userRepository.save(dtoToUser(userDto)));
     }
 
     @Override
-    public User updateUser(User user) {
-        if(userRepository.existsById(user.getUserId()))
-            return userRepository.save(user);
+    public UserDto updateUser(UserDto userDto) {
+        if(userRepository.existsById(userDto.getUserId()))
+            return userToDto(userRepository.save(dtoToUser(userDto)));
         else
-            throw new ResourceNotFoundException("User with ID '" +user.getUserId()+"' does not exist!");
+            throw new ResourceNotFoundException("User with ID '" +userDto.getUserId()+"' does not exist!");
     }
 
     @Override
-    public User getUserById(Integer id) {
+    public UserDto getUserById(Integer id) {
         if(userRepository.existsById(id))
-            return userRepository.findById(id).get();
+            return userToDto(userRepository.findById(id).get());
         else
             throw new ResourceNotFoundException("User with ID '" +id+"' does not exist!");
     }
 
     @Override
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
+    public List<UserDto> getAllUsers() {
+        return usersToDtos(userRepository.findAll());
     }
 
     @Override
@@ -53,17 +58,19 @@ public class UserServiceImpl implements UserService{
 
     public User dtoToUser(UserDto userDto)
     {
-        User user = new User();
-        user.setUserId(userDto.getUserId());
-        user.setName(userDto.getName());
-        user.setUsername(userDto.getUsername());
-        user.setEmail(userDto.getEmail());
-        user.setPassword(userDto.getPassword());
+        User user = modelMapper.map(userDto, User.class);
         return user;
     }
 
     public UserDto userToDto(User user)
     {
-        return new UserDto(user.getUserId(), user.getName(), user.getUsername(), user.getEmail(), user.getPassword());
+        UserDto userDto = modelMapper.map(user, UserDto.class);
+        return userDto;
+    }
+
+    public List<UserDto> usersToDtos(List<User> users)
+    {
+        List<UserDto> dtos = modelMapper.map(users, new TypeToken<List<UserDto>>() {}.getType());
+        return dtos;
     }
 }

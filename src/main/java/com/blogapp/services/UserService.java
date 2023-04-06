@@ -10,10 +10,10 @@ import java.util.List;
 
 @Service
 public interface UserService {
-    User createUser(User user);
-    User updateUser(User user);
-    User getUserById(Integer id);
-    List<User> getAllUsers();
+    UserDto createUser(UserDto userDto);
+    UserDto updateUser(UserDto userDto);
+    UserDto getUserById(Integer id);
+    List<UserDto> getAllUsers();
     String deleteUserById(Integer id);
 
 }

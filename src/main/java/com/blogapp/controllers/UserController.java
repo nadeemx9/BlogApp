@@ -17,27 +17,27 @@ public class UserController {
     @Autowired
     private UserService userService;
     @PostMapping
-    public ResponseEntity<User> createUser(@RequestBody User user)
+    public ResponseEntity<UserDto> createUser(@RequestBody UserDto userDto)
     {
-        return new ResponseEntity<User>(userService.createUser(user), HttpStatus.CREATED);
+        return new ResponseEntity<UserDto>(userService.createUser(userDto), HttpStatus.CREATED);
     }
 
     @GetMapping("{userId}")
-    public ResponseEntity<User> getUserById(@PathVariable("userId") Integer userId)
+    public ResponseEntity<UserDto> getUserById(@PathVariable("userId") Integer userId)
     {
-        return new ResponseEntity<User>(userService.getUserById(userId), HttpStatus.FOUND);
+        return new ResponseEntity<UserDto>(userService.getUserById(userId), HttpStatus.FOUND);
     }
 
     @GetMapping
-    public ResponseEntity<List<User>> getAllUsers()
+    public ResponseEntity<List<UserDto>> getAllUsers()
     {
-        return new ResponseEntity<List<User>>(userService.getAllUsers(), HttpStatus.FOUND);
+        return new ResponseEntity<List<UserDto>>(userService.getAllUsers(), HttpStatus.FOUND);
     }
 
     @PutMapping
-    public ResponseEntity<User> updateUser(@RequestBody User user)
+    public ResponseEntity<UserDto> updateUser(@RequestBody UserDto userDto)
     {
-        return new ResponseEntity<User>(userService.createUser(user), HttpStatus.ACCEPTED);
+        return new ResponseEntity<UserDto>(userService.createUser(userDto), HttpStatus.ACCEPTED);
     }
 
     @DeleteMapping("{userId}")
