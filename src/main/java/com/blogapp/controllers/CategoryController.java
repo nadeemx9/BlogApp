@@ -17,12 +17,12 @@ public class CategoryController {
     private CategoryService categoryService;
 
     @PostMapping
-    public ResponseEntity<CategoryDto> createCategory(@Valid  @RequestBody CategoryDto categoryDto)
+    public ResponseEntity<CategoryDto> createCategory(@Valid @RequestBody CategoryDto categoryDto)
     {
         return new ResponseEntity<CategoryDto>(categoryService.createCategory(categoryDto), HttpStatus.CREATED);
     }
     @PutMapping("{id}")
-    public ResponseEntity<CategoryDto> updateCategory(CategoryDto categoryDto, @PathVariable Integer id)
+    public ResponseEntity<CategoryDto> updateCategory(@Valid @RequestBody CategoryDto categoryDto, @PathVariable Integer id)
     {
         return new ResponseEntity<CategoryDto>(categoryService.updateCategory(categoryDto, id), HttpStatus.ACCEPTED);
     }

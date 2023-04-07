@@ -27,8 +27,14 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public UserDto updateUser(UserDto userDto, Integer id) {
-        if(userRepository.existsById(id))
-            return userToDto(userRepository.save(dtoToUser(userDto)));
+        if(userRepository.existsById(id)) {
+            User user = userRepository.findById(id).get();
+            user.setName(userDto.getName());
+            user.setUsername(userDto.getUsername());
+            user.setEmail(userDto.getEmail());
+            user.setPassword(userDto.getPassword());
+            return userToDto(userRepository.save(user));
+        }
         else
             throw new ResourceNotFoundException("User with ID '" +userDto.getUserId()+"' does not exist!");
     }

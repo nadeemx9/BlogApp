@@ -28,8 +28,12 @@ public class CategoryServiceImpl implements CategoryService{
     @Override
     public CategoryDto updateCategory(CategoryDto categoryDto, Integer id)
     {
-        if(categoryRepository.existsById(id))
-            return categoryToDto(categoryRepository.save(dtoToCategory(categoryDto)));
+        if(categoryRepository.existsById(id)) {
+            Category category = categoryRepository.findById(id).get();
+            category.setCategoryName(categoryDto.getCategoryName());
+            category.setCategoryDescription(categoryDto.getCategoryDescription());
+            return categoryToDto(categoryRepository.save(category));
+        }
         else
             throw new ResourceNotFoundException("Category with ID '"+id+"' not found!");
     }
