@@ -1,15 +1,11 @@
 package com.blogapp.controllers;
 
 import com.blogapp.dto.UserDto;
-import com.blogapp.entities.User;
-import com.blogapp.exception.FieldValidationException;
 import com.blogapp.services.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -38,10 +34,10 @@ public class UserController {
         return new ResponseEntity<List<UserDto>>(userService.getAllUsers(), HttpStatus.FOUND);
     }
 
-    @PutMapping
-    public ResponseEntity<UserDto> updateUser(@RequestBody UserDto userDto)
+    @PutMapping("{id}")
+    public ResponseEntity<UserDto> updateUser(@RequestBody UserDto userDto, @PathVariable Integer id)
     {
-        return new ResponseEntity<UserDto>(userService.createUser(userDto), HttpStatus.ACCEPTED);
+        return new ResponseEntity<UserDto>(userService.updateUser(userDto, id), HttpStatus.ACCEPTED);
     }
 
     @DeleteMapping("{userId}")
