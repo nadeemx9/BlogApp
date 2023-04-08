@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.util.HashMap;
@@ -33,6 +34,14 @@ public class GlobalExceptionHandler{
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public String handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException ex)
+    {
+        return "Invalid Argument Format";
+    }
+
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public String handlMessageNotRedeableException(HttpMessageNotReadableException ex)
     {

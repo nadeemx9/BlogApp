@@ -41,13 +41,28 @@ public class PostServiceImpl implements PostService {
         postDto.setCategory(modelMapper.map(category, CategoryDto.class));
         postDto.setCreatedAt(new Date());
 
-        Post savedPost = postRepository.save(dtoToPost(postDto));
-        return postToDto(savedPost);
+        return postToDto(postRepository.save(dtoToPost(postDto)));
     }
 
     @Override
     public PostDto updatePost(PostDto postDto, int id) {
-        return null;
+        Post post = postRepository.findById(id)
+                .orElseThrow(()-> new ResourceNotFoundException("Post with ID '"+id+"' not found!"));
+
+        post.setPostTitle(postDto.getPostTitle());
+        post.setPostContent(postDto.getPostContent());
+//        post.setPostImage(postDto.getPostImage());
+//        post.setCategory(modelMapper.map(postDto.getCategory(), Category.class));
+//        post.setUser(modelMapper.map(postDto.getUser(), User.class));
+//        post.setCreatedAt(postDto.getCreatedAt());
+        postRepository.save(post);
+        return postToDto(post);
+    }
+
+    @Override
+    public PostDto getPostById(int id) {
+        return postToDto(postRepository.findById(id)
+                .orElseThrow(()-> new ResourceNotFoundException("Post with ID '"+id+"' not found!")));
     }
 
     @Override
@@ -56,18 +71,22 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<PostDto> getPostByUser(int userId) {
-        return null;
+    public List<PostDto> getPostsByUser(int userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(()-> new ResourceNotFoundException("User with ID '"+userId+"' not found!"));
+        return postsToDtos(postRepository.findByUser(user));
     }
-
     @Override
-    public List<PostDto> getPostsByCategory(int categoryId) {
-        return null;
+    public List<PostDto> getPostsByCategory(Integer categoryId) {
+        Category category = categoryRepository.findById(categoryId)
+                .orElseThrow(()-> new ResourceNotFoundException("Category with ID '"+categoryId+"' not found!"));
+        return postsToDtos(postRepository.findByCategory(category));
     }
 
     @Override
     public void deletePostById(int id) {
-
+        postRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("Post with ID '"+id+"' not found!"));
+        postRepository.deleteById(id);
     }
 
     public Post dtoToPost(PostDto postDto)
