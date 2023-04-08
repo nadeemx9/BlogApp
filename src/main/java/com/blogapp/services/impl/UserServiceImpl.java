@@ -1,9 +1,10 @@
-package com.blogapp.services;
+package com.blogapp.services.impl;
 
 import com.blogapp.dto.UserDto;
 import com.blogapp.entities.User;
 import com.blogapp.exception.ResourceNotFoundException;
 import com.blogapp.repositories.UserRepository;
+import com.blogapp.services.UserService;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 @Service
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepository;
@@ -36,7 +37,7 @@ public class UserServiceImpl implements UserService{
             return userToDto(userRepository.save(user));
         }
         else
-            throw new ResourceNotFoundException("User with ID '" +userDto.getUserId()+"' does not exist!");
+            throw new ResourceNotFoundException("User with ID '" +id+"' does not exist!");
     }
 
     @Override

@@ -14,15 +14,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CategoryDto {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Integer categoryId;
+
+    private Integer categoryId;
     @NotEmpty(message = "Category Name should not be empty!")
     @NotBlank(message = "Category Name should not be empty!")
     @Size(min = 3, message = "Category Name must be atleast 3 digits!")
-    String categoryName;
+    private String categoryName;
     @NotEmpty(message = "Category Description should not be empty!")
     @NotBlank(message = "Category Description should not be empty!")
     @Size(min = 3, message = "Category Description must be atleast 3 digits!")
-    String categoryDescription;
+    private String categoryDescription;
 }

@@ -1,4 +1,4 @@
-package com.blogapp.services;
+package com.blogapp.services.impl;
 
 import com.blogapp.dto.CategoryDto;
 import com.blogapp.dto.UserDto;
@@ -6,6 +6,7 @@ import com.blogapp.entities.Category;
 import com.blogapp.entities.User;
 import com.blogapp.exception.ResourceNotFoundException;
 import com.blogapp.repositories.CategoryRepository;
+import com.blogapp.services.CategoryService;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class CategoryServiceImpl implements CategoryService{
+public class CategoryServiceImpl implements CategoryService {
 
     @Autowired
     private CategoryRepository categoryRepository;
