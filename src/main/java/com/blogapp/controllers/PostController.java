@@ -41,9 +41,11 @@ public class PostController {
     }
     @GetMapping("/user/{userId}")
     public ResponseEntity<PostResponse> getPostsByUser(@PathVariable int userId,
-                                                       @RequestParam() Integer pageNumber,
-                                                       @RequestParam() Integer pageSize) {
-        return new ResponseEntity<PostResponse>(postService.getPostsByUser(userId, pageNumber, pageSize), HttpStatus.FOUND);
+                                                       @RequestParam(value = "pageNumber", defaultValue = "0", required = false) Integer pageNumber,
+                                                       @RequestParam(value = "pageSize", defaultValue = "5", required = false) Integer pageSize,
+                                                       @RequestParam(value = "sortBy", defaultValue = "postId", required = false) String sortBy,
+                                                       @RequestParam(value = "sortDirection", defaultValue = "asc", required = false) String sortDirection) {
+        return new ResponseEntity<PostResponse>(postService.getPostsByUser(userId, pageNumber, pageSize, sortBy, sortDirection), HttpStatus.FOUND);
     }
     @GetMapping("/category/{categoryId}")
     public ResponseEntity<PostResponse> getPostsByCategory(@PathVariable int categoryId,

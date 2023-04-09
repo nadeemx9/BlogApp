@@ -89,10 +89,11 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public PostResponse getPostsByUser(Integer userId, Integer pageNumber, Integer pageSize) {
+    public PostResponse getPostsByUser(Integer userId, Integer pageNumber, Integer pageSize, String sortBy, String sortDirection) {
         User user = userRepository.findById(userId)
                 .orElseThrow(()-> new ResourceNotFoundException("User with ID '"+userId+"' not found!"));
-        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+        Sort sort = (sortDirection.equalsIgnoreCase("acs") ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending());
+        Pageable pageable = PageRequest.of(pageNumber, pageSize, sort);
         Page<Post> pagePost = postRepository.findByUser(user, pageable);
 
         PostResponse postResponse = new PostResponse();
