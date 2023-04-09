@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
@@ -31,7 +30,7 @@ public class CategoryController {
     {
         return new ResponseEntity<CategoryDto>(categoryService.getCategoryById(id), HttpStatus.FOUND);
     }
-    @GetMapping
+    @GetMapping("all")
     public ResponseEntity<List<CategoryDto>> getAllCategories()
     {
         return new ResponseEntity<List<CategoryDto>>(categoryService.getAllCategories(), HttpStatus.FOUND);
