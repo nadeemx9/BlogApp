@@ -50,9 +50,11 @@ public class PostController {
     @GetMapping("/category/{categoryId}")
     public ResponseEntity<PostResponse> getPostsByCategory(@PathVariable int categoryId,
                                                             @RequestParam(value = "pageNumber", defaultValue = "0", required = false) Integer pageNumber,
-                                                            @RequestParam(value = "pageSize", defaultValue = "5", required = false) Integer pageSize)
+                                                            @RequestParam(value = "pageSize", defaultValue = "5", required = false) Integer pageSize,
+                                                            @RequestParam(value = "sortBy", defaultValue = "postId", required = false) String sortBy,
+                                                            @RequestParam(value = "sortDirection", defaultValue = "asc", required = false) String sortDirection)
     {
-        return new ResponseEntity<>(postService.getPostsByCategory(categoryId, pageNumber, pageSize), HttpStatus.FOUND);
+        return new ResponseEntity<>(postService.getPostsByCategory(categoryId, pageNumber, pageSize, sortBy, sortDirection), HttpStatus.FOUND);
     }
     @PutMapping("{postId}")
     public ResponseEntity<PostDto> updatePost(@Valid @RequestBody PostDto postDto, @PathVariable int postId)

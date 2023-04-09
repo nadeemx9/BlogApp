@@ -107,10 +107,11 @@ public class PostServiceImpl implements PostService {
         return postResponse;
     }
     @Override
-    public PostResponse getPostsByCategory(Integer categoryId, Integer pageNumber, Integer pageSize) {
+    public PostResponse getPostsByCategory(Integer categoryId, Integer pageNumber, Integer pageSize, String sortBy, String sortDirection) {
         Category category = categoryRepository.findById(categoryId)
                 .orElseThrow(()-> new ResourceNotFoundException("Category with ID '"+categoryId+"' not found!"));
-        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+        Sort sort = (sortDirection.equalsIgnoreCase("asc")) ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
+        Pageable pageable = PageRequest.of(pageNumber, pageSize, sort);
         Page<Post> pagePosts = postRepository.findByCategory(category, pageable);
 
         PostResponse postResponse = new PostResponse();
