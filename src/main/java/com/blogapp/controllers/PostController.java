@@ -19,7 +19,9 @@ public class PostController {
     private PostService postService;
 
     @PostMapping("user/{userId}/category/{categoryId}")
-    public ResponseEntity<PostDto> createPost(@RequestBody @Valid PostDto postDto, @PathVariable int userId, @PathVariable int categoryId)
+    public ResponseEntity<PostDto> createPost(@RequestBody @Valid PostDto postDto,
+                                              @PathVariable int userId,
+                                              @PathVariable int categoryId)
     {
         return new ResponseEntity<>(postService.createPost(postDto, userId, categoryId), HttpStatus.CREATED);
     }
@@ -36,8 +38,10 @@ public class PostController {
         return new ResponseEntity<>(postService.getPostById(postId), HttpStatus.FOUND);
     }
     @GetMapping("/user/{userId}")
-    public ResponseEntity<List<PostDto>> getPostsByUser(@PathVariable int userId) {
-        return new ResponseEntity<>(postService.getPostsByUser(userId), HttpStatus.FOUND);
+    public ResponseEntity<PostResponse> getPostsByUser(@RequestParam(value = "pageNumber", defaultValue = "0", required = false) Integer pageNumber,
+                                                        @RequestParam(value = "pageSize", defaultValue = "5", required = false) Integer pageSize,
+                                                        @PathVariable int userId) {
+        return new ResponseEntity<PostResponse>(postService.getPostsByUser(userId, pageNumber, pageSize), HttpStatus.FOUND);
     }
     @GetMapping("/category/{categoryId}")
     public ResponseEntity<List<PostDto>> getPostsByCategory(@PathVariable int categoryId)

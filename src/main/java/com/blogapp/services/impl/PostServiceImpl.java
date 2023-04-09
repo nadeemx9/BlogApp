@@ -87,10 +87,21 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<PostDto> getPostsByUser(int userId) {
+    public PostResponse getPostsByUser(int userId, Integer pageNumber, Integer pageSize) {
         User user = userRepository.findById(userId)
                 .orElseThrow(()-> new ResourceNotFoundException("User with ID '"+userId+"' not found!"));
-        return postsToDtos(postRepository.findByUser(user));
+        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+        Page<Post> pagePost = postRepository.findByUser(user, pageable);
+
+        PostResponse postResponse = new PostResponse();
+        postResponse.setContent(postsToDtos(pagePost.getContent()));
+        postResponse.setPageNumber(pagePost.getNumber());
+        postResponse.setPageSize(pagePost.getSize());
+        postResponse.setTotalElements(pagePost.getTotalElements());
+        postResponse.setTotalPages(pagePost.getTotalPages());
+        postResponse.setLastPage(pagePost.isLast());
+
+        return postResponse;
     }
     @Override
     public List<PostDto> getPostsByCategory(Integer categoryId) {
