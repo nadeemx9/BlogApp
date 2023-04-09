@@ -38,15 +38,17 @@ public class PostController {
         return new ResponseEntity<>(postService.getPostById(postId), HttpStatus.FOUND);
     }
     @GetMapping("/user/{userId}")
-    public ResponseEntity<PostResponse> getPostsByUser(@RequestParam(value = "pageNumber", defaultValue = "0", required = false) Integer pageNumber,
-                                                        @RequestParam(value = "pageSize", defaultValue = "5", required = false) Integer pageSize,
-                                                        @PathVariable int userId) {
+    public ResponseEntity<PostResponse> getPostsByUser(@PathVariable int userId,
+                                                       @RequestParam() Integer pageNumber,
+                                                       @RequestParam() Integer pageSize) {
         return new ResponseEntity<PostResponse>(postService.getPostsByUser(userId, pageNumber, pageSize), HttpStatus.FOUND);
     }
     @GetMapping("/category/{categoryId}")
-    public ResponseEntity<List<PostDto>> getPostsByCategory(@PathVariable int categoryId)
+    public ResponseEntity<PostResponse> getPostsByCategory(@PathVariable int categoryId,
+                                                            @RequestParam(value = "pageNumber", defaultValue = "0", required = false) Integer pageNumber,
+                                                            @RequestParam(value = "pageSize", defaultValue = "5", required = false) Integer pageSize)
     {
-        return new ResponseEntity<>(postService.getPostsByCategory(categoryId), HttpStatus.FOUND);
+        return new ResponseEntity<>(postService.getPostsByCategory(categoryId, pageNumber, pageSize), HttpStatus.FOUND);
     }
     @PutMapping("{postId}")
     public ResponseEntity<PostDto> updatePost(@Valid @RequestBody PostDto postDto, @PathVariable int postId)

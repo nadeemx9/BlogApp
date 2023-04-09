@@ -87,7 +87,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public PostResponse getPostsByUser(int userId, Integer pageNumber, Integer pageSize) {
+    public PostResponse getPostsByUser(Integer userId, Integer pageNumber, Integer pageSize) {
         User user = userRepository.findById(userId)
                 .orElseThrow(()-> new ResourceNotFoundException("User with ID '"+userId+"' not found!"));
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
@@ -104,10 +104,21 @@ public class PostServiceImpl implements PostService {
         return postResponse;
     }
     @Override
-    public List<PostDto> getPostsByCategory(Integer categoryId) {
+    public PostResponse getPostsByCategory(Integer categoryId, Integer pageNumber, Integer pageSize) {
         Category category = categoryRepository.findById(categoryId)
                 .orElseThrow(()-> new ResourceNotFoundException("Category with ID '"+categoryId+"' not found!"));
-        return postsToDtos(postRepository.findByCategory(category));
+        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+        Page<Post> pagePosts = postRepository.findByCategory(category, pageable);
+
+        PostResponse postResponse = new PostResponse();
+        postResponse.setContent(postsToDtos(pagePosts.getContent()));
+        postResponse.setPageNumber(pagePosts.getNumber());
+        postResponse.setPageSize(pagePosts.getSize());
+        postResponse.setTotalElements(pagePosts.getTotalElements());
+        postResponse.setTotalPages(pagePosts.getTotalPages());
+        postResponse.setLastPage(pagePosts.isLast());
+
+        return postResponse;
     }
 
     @Override
