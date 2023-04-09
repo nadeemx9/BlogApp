@@ -1,8 +1,9 @@
 package com.blogapp.services.impl;
 
-import com.blogapp.dto.CategoryDto;
-import com.blogapp.dto.PostDto;
-import com.blogapp.dto.UserDto;
+import com.blogapp.payloads.CategoryDto;
+import com.blogapp.payloads.PostDto;
+import com.blogapp.payloads.PostResponse;
+import com.blogapp.payloads.UserDto;
 import com.blogapp.entities.Category;
 import com.blogapp.entities.Post;
 import com.blogapp.entities.User;
@@ -69,11 +70,20 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<PostDto> getAllPosts(Integer pageNumber, Integer pageSize) {
+    public PostResponse getAllPosts(Integer pageNumber, Integer pageSize) {
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
         Page<Post> pagePosts = postRepository.findAll(pageable);
         List<PostDto> posts = postsToDtos(pagePosts.getContent());
-        return posts;
+
+        PostResponse postResponse = new PostResponse();
+        postResponse.setContent(posts);
+        postResponse.setPageNumber(pagePosts.getNumber());
+        postResponse.setPageSize(pagePosts.getSize());
+        postResponse.setTotalElements(pagePosts.getTotalElements());
+        postResponse.setTotalPages(pagePosts.getTotalPages());
+        postResponse.setLastPage(pagePosts.isLast());
+
+        return postResponse;
     }
 
     @Override

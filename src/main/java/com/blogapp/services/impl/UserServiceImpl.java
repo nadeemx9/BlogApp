@@ -1,6 +1,6 @@
 package com.blogapp.services.impl;
 
-import com.blogapp.dto.UserDto;
+import com.blogapp.payloads.UserDto;
 import com.blogapp.entities.User;
 import com.blogapp.exception.ResourceNotFoundException;
 import com.blogapp.repositories.UserRepository;
@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
+
 @Service
 public class UserServiceImpl implements UserService {
 

@@ -1,9 +1,7 @@
 package com.blogapp.services.impl;
 
-import com.blogapp.dto.CategoryDto;
-import com.blogapp.dto.UserDto;
+import com.blogapp.payloads.CategoryDto;
 import com.blogapp.entities.Category;
-import com.blogapp.entities.User;
 import com.blogapp.exception.ResourceNotFoundException;
 import com.blogapp.repositories.CategoryRepository;
 import com.blogapp.services.CategoryService;

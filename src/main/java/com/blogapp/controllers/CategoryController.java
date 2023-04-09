@@ -1,6 +1,6 @@
 package com.blogapp.controllers;
 
-import com.blogapp.dto.CategoryDto;
+import com.blogapp.payloads.CategoryDto;
 import com.blogapp.services.CategoryService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

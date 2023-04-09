@@ -1,8 +1,6 @@
 package com.blogapp.services;
 
-import com.blogapp.dto.CategoryDto;
-import com.blogapp.repositories.CategoryRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.blogapp.payloads.CategoryDto;
 
 import java.util.List;
 

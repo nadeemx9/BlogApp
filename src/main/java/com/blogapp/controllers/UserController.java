@@ -1,6 +1,6 @@
 package com.blogapp.controllers;
 
-import com.blogapp.dto.UserDto;
+import com.blogapp.payloads.UserDto;
 import com.blogapp.services.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
