@@ -71,8 +71,11 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public PostResponse getAllPosts(Integer pageNumber, Integer pageSize, String sortBy, String sortDirection) {
-        Sort sort = (sortDirection.equalsIgnoreCase("asc")) ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
+    public PostResponse getAllPosts(Integer pageNumber, Integer pageSize,
+                                    String sortBy, String sortDirection) {
+        Sort sort = (sortDirection.equalsIgnoreCase("asc")) ?
+                Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
+
         Pageable pageable = PageRequest.of(pageNumber, pageSize, sort);
         Page<Post> pagePosts = postRepository.findAll(pageable);
         List<PostDto> posts = postsToDtos(pagePosts.getContent());
@@ -89,10 +92,13 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public PostResponse getPostsByUser(Integer userId, Integer pageNumber, Integer pageSize, String sortBy, String sortDirection) {
+    public PostResponse getPostsByUser(Integer userId, Integer pageNumber,
+                                       Integer pageSize, String sortBy, String sortDirection) {
         User user = userRepository.findById(userId)
                 .orElseThrow(()-> new ResourceNotFoundException("User with ID '"+userId+"' not found!"));
-        Sort sort = (sortDirection.equalsIgnoreCase("acs") ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending());
+
+        Sort sort = (sortDirection.equalsIgnoreCase("acs") ?
+                Sort.by(sortBy).ascending() : Sort.by(sortBy).descending());
         Pageable pageable = PageRequest.of(pageNumber, pageSize, sort);
         Page<Post> pagePost = postRepository.findByUser(user, pageable);
 
@@ -107,10 +113,12 @@ public class PostServiceImpl implements PostService {
         return postResponse;
     }
     @Override
-    public PostResponse getPostsByCategory(Integer categoryId, Integer pageNumber, Integer pageSize, String sortBy, String sortDirection) {
+    public PostResponse getPostsByCategory(Integer categoryId, Integer pageNumber,
+                                           Integer pageSize, String sortBy, String sortDirection) {
         Category category = categoryRepository.findById(categoryId)
                 .orElseThrow(()-> new ResourceNotFoundException("Category with ID '"+categoryId+"' not found!"));
-        Sort sort = (sortDirection.equalsIgnoreCase("asc")) ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
+        Sort sort = (sortDirection.equalsIgnoreCase("asc"))
+                ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
         Pageable pageable = PageRequest.of(pageNumber, pageSize, sort);
         Page<Post> pagePosts = postRepository.findByCategory(category, pageable);
 
@@ -126,8 +134,15 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    public List<PostDto> getPostsByPostTitle(String keyword) {
+        List<PostDto> posts = postsToDtos(postRepository.findByPostTitleContaining(keyword));
+        return posts;
+    }
+
+    @Override
     public void deletePostById(int id) {
-        postRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("Post with ID '"+id+"' not found!"));
+        postRepository.findById(id)
+                .orElseThrow(()-> new ResourceNotFoundException("Post with ID '"+id+"' not found!"));
         postRepository.deleteById(id);
     }
 
