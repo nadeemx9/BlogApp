@@ -5,6 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -26,5 +29,7 @@ public class UserDto
     @NotBlank(message = "Password should not be empty!")
     @Size(min = 3, message = "Password must be atleast 3 characters!")
     private String password;
+    private List<CommentDto> comments = new ArrayList<>();
+
 
 }

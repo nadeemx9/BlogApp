@@ -24,6 +24,8 @@ public class User {
     private String password;
     @OneToMany(mappedBy = "user")
     private List<Post> posts;
+    @OneToMany(mappedBy = "userId")
+    private List<Comment> comments = new ArrayList<>();
 
 
 

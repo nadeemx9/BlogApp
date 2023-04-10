@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Data
@@ -25,4 +26,9 @@ public class Post {
     @ManyToOne
     @JoinColumn(name = "categoryId")
     private Category category;
+    @OneToMany(mappedBy = "postId")
+    private List<Comment> comments;
+
+
+
 }
