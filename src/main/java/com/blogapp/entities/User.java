@@ -23,12 +23,8 @@ public class User {
     private String email;
     private String password;
     @OneToMany(mappedBy = "user")
-    private List<Post> posts;
-    @OneToMany(mappedBy = "userId")
+    private List<Post> posts = new ArrayList<>();
+    @OneToMany(mappedBy = "user")
     private List<Comment> comments = new ArrayList<>();
-
-
-
-
 
 }

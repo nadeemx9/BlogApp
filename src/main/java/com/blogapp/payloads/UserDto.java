@@ -29,7 +29,7 @@ public class UserDto
     @NotBlank(message = "Password should not be empty!")
     @Size(min = 3, message = "Password must be atleast 3 characters!")
     private String password;
-    private List<CommentDto> comments = new ArrayList<>();
+//    private List<CommentDto> comments = new ArrayList<>();
 
 
 }

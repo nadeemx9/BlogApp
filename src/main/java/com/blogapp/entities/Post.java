@@ -26,7 +26,7 @@ public class Post {
     @ManyToOne
     @JoinColumn(name = "categoryId")
     private Category category;
-    @OneToMany(mappedBy = "postId")
+    @OneToMany(mappedBy = "post")
     private List<Comment> comments;
 
 
