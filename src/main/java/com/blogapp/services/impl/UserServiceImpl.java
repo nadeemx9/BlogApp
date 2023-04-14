@@ -8,6 +8,7 @@ import com.blogapp.services.UserService;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,9 +22,20 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private ModelMapper modelMapper;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @Override
     public UserDto createUser(UserDto userDto) {
-        return userToDto(userRepository.save(dtoToUser(userDto)));
+
+        User user = new User();
+        user.setName(userDto.getName());
+        user.setUsername(userDto.getUsername());
+        user.setEmail(userDto.getEmail());
+        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        user.setRole("ROLE_USER");
+
+        return userToDto(userRepository.save(user));
     }
 
     @Override
@@ -33,7 +45,8 @@ public class UserServiceImpl implements UserService {
             user.setName(userDto.getName());
             user.setUsername(userDto.getUsername());
             user.setEmail(userDto.getEmail());
-            user.setPassword(userDto.getPassword());
+            user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+            user.setRole("ROLE_USER");
             return userToDto(userRepository.save(user));
         }
         else

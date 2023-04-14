@@ -20,7 +20,6 @@ public class SecurityConfig {
     @Autowired
     private UserDetailsService userDetailsService;
 
-
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception
     {
@@ -31,8 +30,6 @@ public class SecurityConfig {
                 .anyRequest().permitAll()
                 .and()
                 .httpBasic()
-                .and()
-                .logout()
                 .and()
                 .authenticationProvider(getDaoAuthenticationProvider());
 
