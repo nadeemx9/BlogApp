@@ -6,6 +6,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,7 +29,8 @@ public class UserController {
         return new ResponseEntity<UserDto>(userService.getUserById(userId), HttpStatus.FOUND);
     }
 
-    @GetMapping("all")
+//    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/all")
     public ResponseEntity<List<UserDto>> getAllUsers()
     {
         return new ResponseEntity<List<UserDto>>(userService.getAllUsers(), HttpStatus.FOUND);

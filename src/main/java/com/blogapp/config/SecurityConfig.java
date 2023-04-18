@@ -19,6 +19,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
@@ -34,8 +35,9 @@ public class SecurityConfig {
         http
                 .csrf().disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/auth/**").permitAll()
-                .anyRequest().authenticated()
+//                .requestMatchers("/auth/**", "/swagger-uiindex.html").permitAll()
+//                .requestMatchers("/user/all").hasRole("ADMIN")
+                .anyRequest().permitAll()
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
@@ -67,6 +69,16 @@ public class SecurityConfig {
     public ModelMapper ModelMapper() {
         return new ModelMapper();
     }
+
+//    @Bean
+//    Docket api()
+//    {
+//        return new Docket(DocumentationType.SWAGGER_2)
+//                .select()
+//                .apis(RequestHandlerSelectors.basePackage("com.blogapp.controllers"))
+//                .paths(PathSelectors.any())
+//                .build();
+//    }
 
 
 }
