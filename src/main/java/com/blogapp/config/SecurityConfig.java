@@ -1,6 +1,12 @@
 package com.blogapp.config;
 
 import com.blogapp.config.jwt.JwtAuthenticationFilter;
+import com.blogapp.payloads.Constants;
+import io.swagger.v3.oas.models.ExternalDocumentation;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Contact;
+import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.info.License;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -35,9 +41,8 @@ public class SecurityConfig {
         http
                 .csrf().disable()
                 .authorizeHttpRequests()
-//                .requestMatchers("/auth/**", "/swagger-uiindex.html").permitAll()
-//                .requestMatchers("/user/all").hasRole("ADMIN")
-                .anyRequest().permitAll()
+                .requestMatchers(Constants.PUBLIC_URLS).permitAll()
+                .anyRequest().authenticated()
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
@@ -70,15 +75,22 @@ public class SecurityConfig {
         return new ModelMapper();
     }
 
-//    @Bean
-//    Docket api()
-//    {
-//        return new Docket(DocumentationType.SWAGGER_2)
-//                .select()
-//                .apis(RequestHandlerSelectors.basePackage("com.blogapp.controllers"))
-//                .paths(PathSelectors.any())
-//                .build();
-//    }
+    @Bean
+    public OpenAPI api() {
+        return new OpenAPI()
+                .info(new Info().title("BLOG APPLICATION BACKEND API")
+                        .contact(new Contact().name("Nadeem")
+                                .email("nadeempalkhiwala@gmail.com")
+                                .url("https://github.com/nadeemx9"))
+                        .description("Blogging APIs using Spring Boot 3.0")
+                        .version("v1.0")
+                        .termsOfService("Terms and Condition")
+                        .license(new License().name("Apache 2.0").url("http://springdoc.org")))
+
+                .externalDocs(new ExternalDocumentation()
+                        .description("Blog Application Documentation")
+                        .url("https://springshop.wiki.github.org/docs"));
+    }
 
 
 }
